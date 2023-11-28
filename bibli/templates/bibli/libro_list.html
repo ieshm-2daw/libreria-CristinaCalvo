@@ -1,0 +1,14 @@
+<html>
+    <body>
+
+    <h1><a href="/">Lista de Libros</a></h1> 
+    {% for libro in libro_list %}  
+    <div>  
+        <h2><a href="{% url 'detalles' pk=libro.pk %}">{{ libro.titulo }}</a></h2>
+    </div>
+    {% endfor %}
+ <div>
+    <a href="{% url 'nuevo_libro' %}">Agregar nuevo libro</a>
+</div>
+</body>
+</html>

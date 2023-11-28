@@ -1,0 +1,23 @@
+<html>
+    <body>
+
+    <h1><a>Detalles</a></h1> 
+    
+    <div>  
+        <h2><a>Título: {{ libro.titulo }}</a></h2>
+        <p>Autores: {{ libro.autores|linebreaksbr }}</p> 
+        <p>Editorial: {{ libro.editorial }}</p>
+        <p>Genero: {{ libro.genero }}</p>
+        <p>ISBN: {{ libro.ISBN }}</p>
+        <p>Resumen: {{ libro.resumen }}</p>
+        <p>Disponibilidad: {{ libro.disponibilidad }}</p>
+        <p>Portada: {{ libro.portada }}</p>
+    </div>
+  
+ <div>
+    <a href="{% url 'libros_list' %}">Lista de libros</a><br>
+    <a href="{%  url 'actualiza_form' pk=libro.pk %}">Edita este libro</a><br>
+    <a href="{%  url 'delete' pk=libro.pk %}">Borra este libro</a>
+</div>
+</body>
+</html>

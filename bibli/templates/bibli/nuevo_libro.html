@@ -1,0 +1,16 @@
+<html>
+<body>
+<div>
+    <h1><a>Nuevo libro</a></h1> 
+</div>
+
+<div>
+    <form method="post" action="{% url 'nuevo_libro' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Publicar</button>
+    </form>
+    <a href="{% url 'libros_list' %}">Volver a lista de libros</a>
+</div>
+</body>
+</html>
