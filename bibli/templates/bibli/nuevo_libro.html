@@ -5,12 +5,12 @@
 </div>
 
 <div>
-    <form method="post" action="{% url 'nuevo_libro' %}">
+    <form method="post" action="{% url 'nuevo_libro' %}" enctype="multipart/form-data"> 
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Publicar</button>
     </form>
-    <a href="{% url 'libros_list' %}">Volver a lista de libros</a>
+    <a href="{% url 'libro_list' %}">Volver a lista de libros</a>
 </div>
 </body>
 </html>

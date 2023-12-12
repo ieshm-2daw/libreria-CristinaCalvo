@@ -5,6 +5,9 @@
     {% for libro in libro_list %}  
     <div>  
         <h2><a href="{% url 'detalles' pk=libro.pk %}">{{ libro.titulo }}</a></h2>
+        {% if libro.portada %}
+            <img src="{{ libro.portada.url }}">
+        {% endif %}
     </div>
     {% endfor %}
  <div>

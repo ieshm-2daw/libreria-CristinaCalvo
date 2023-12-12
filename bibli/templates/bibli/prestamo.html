@@ -1,0 +1,21 @@
+<html>
+    <body>
+
+    <h1><a>Préstamo</a></h1> 
+    
+    <div>  
+        <h2><a>Título: {{ libro.titulo }}</a></h2>
+        {% for autor in libro.autores.all %}
+        <p>Autores: {{ libro.autores|linebreaksbr }}</p> 
+        {% endfor %}
+        <p>Genero: {{ libro.genero }}</p>    
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        <p>¿Quieres tener este libro?</p>
+        {{ form }}
+        <a href="{% url 'libro_list' %}"><input type="submit" value="Confirm"></a>
+    </form>
+  
+</body>
+</html>

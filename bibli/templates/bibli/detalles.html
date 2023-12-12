@@ -5,19 +5,25 @@
     
     <div>  
         <h2><a>Título: {{ libro.titulo }}</a></h2>
+        {% for autor in libro.autores.all %}
         <p>Autores: {{ libro.autores|linebreaksbr }}</p> 
+        {% endfor %}
         <p>Editorial: {{ libro.editorial }}</p>
         <p>Genero: {{ libro.genero }}</p>
         <p>ISBN: {{ libro.ISBN }}</p>
         <p>Resumen: {{ libro.resumen }}</p>
         <p>Disponibilidad: {{ libro.disponibilidad }}</p>
-        <p>Portada: {{ libro.portada }}</p>
+        {% if libro.portada %}
+            <img src="{{ libro.portada.url }}">
+        {% endif %}
     </div>
   
  <div>
-    <a href="{% url 'libros_list' %}">Lista de libros</a><br>
+    <a href="{% url 'libro_list' %}">Lista de libros</a><br>
     <a href="{%  url 'actualiza_form' pk=libro.pk %}">Edita este libro</a><br>
-    <a href="{%  url 'delete' pk=libro.pk %}">Borra este libro</a>
+    <a href="{%  url 'delete' pk=libro.pk %}">Borra este libro</a><br>
+    <a href="{%  url 'realizar_prestamo' pk=libro.pk %}">Realizar préstamo</a><br>
+    <a href="{%  url 'realizar_devolucion' pk=libro.pk %}">Realizar devolución</a>
 </div>
 </body>
 </html>
