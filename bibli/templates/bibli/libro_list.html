@@ -11,7 +11,9 @@
     </div>
     {% endfor %}
  <div>
-    <a href="{% url 'nuevo_libro' %}">Agregar nuevo libro</a>
+    <a href="{% url 'nuevo_libro' %}">Agregar nuevo libro</a><br>
+    <a href="{% url 'mislibros' %}">Mis libros</a><br>
+    <a href="{% url 'genero_list' %}">Filtrar por género</a>
 </div>
 </body>
 </html>

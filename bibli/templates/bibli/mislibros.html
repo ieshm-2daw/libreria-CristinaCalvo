@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Libros</title>
+</head>
+<body>
+    <h1>Mis Libros</h1>
+
+    <h2>Libros Prestados</h2>
+    {% for prestamo in prestamo_prestado %}  
+    <div>  
+        Libro: {{ prestamo.libro_prestado }}<br>
+        Fecha Prestado: {{ prestamo.fecha_prestamo }}<br>
+        <a href="{%  url 'realizar_devolucion' pk=prestamo.libro_prestado.pk %}">Devolver</a><br><br>
+    </div>
+    {% endfor %}
+
+    <h2>Libros Devueltos</h2>
+    {% for prestamo in prestamo_devuelto %}  
+    <div>  
+        Libro: {{ prestamo.libro_prestado }}<br>
+        Fecha Prestado: {{ prestamo.fecha_prestamo }}<br>
+        Fecha Devuelto: {{ prestamo.fecha_devolucion }}<br><br>
+    </div>
+    {% endfor %}<br>
+    
+    <a href="{% url 'libro_list' %}">Lista de libros</a><br>
+
+</body>
+</html>
