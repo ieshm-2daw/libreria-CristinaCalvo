@@ -7,6 +7,7 @@ class LibroForm(forms.ModelForm):
       fields = ['titulo', 'autores', 'editorial','ISBN', 'fecha_publicacion', 'genero', 'resumen', 'disponibilidad', 'portada']
 
 
-class BuscarLibro(forms.ModelForm): #Obtenemos el genero a partir de un formulario
-  class Meta:
-    genero = forms.CharField(label='Género', max_length=50)
+class BuscarLibro(forms.ModelForm):
+    class Meta:
+        model = Libro
+        fields = ['genero']

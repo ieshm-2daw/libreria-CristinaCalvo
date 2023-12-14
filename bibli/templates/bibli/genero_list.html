@@ -6,35 +6,36 @@
     <title>Filtrado por género</title>
 </head>
 <body>
-
-    <form method="get" action="{% url 'genero_list' %}">
-        {{ form.as_p }} <!--No coge el formulario especificado-->
+    <h1>Filtrado de libros</h1>
+    <form method="get" action="{% url 'genero_list' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
         <button type="submit">Buscar</button>
-    </form>
+    </form><br>
 
-
-{% for libro in libro.genero %}
-<h2>Libros de {{ libro.genero }}</h2>
-<ul>
-    {% for libro in libros %}
-
-        <li>Título: {{ libro.titulo }}</li>
-
-        {% for autor in libro.autores.all %}
-        <p>Autores: {{ libro.autores|linebreaksbr }}</p> 
-        {% endfor %}
-
-        <li>Resumen: {{ libro.titulo }}</li>
-
-        {% if libro.portada %}
-        <img src="{{ libro.portada.url }}">
-        {% endif %}
-
+    <table method="post" action="{% url 'genero_list' %}">
+    {% if libros_list %}
+    {% for libro in libros_list %}
+        <h2>Libros de {{ libro.genero }}</h2>
+        <ul>
+            {% for libro in libros.all %}
+                <li>Título: {{ libro.titulo }}</li>
+                {% for autor in libro.autores.all %}
+                    <p>Autores: {{ autor.nombre }}</p> 
+                {% endfor %}
+                <li>Resumen: {{ libro.resumen }}</li>
+                {% if libro.portada %}
+                    <img src="{{ libro.portada.url }}">
+                {% endif %}
+            {% endfor %}
+        </ul>
     {% endfor %}
-</ul>
-{% endfor %}
+{% else %}
+    <p>No se encontraron libros para el género seleccionado.</p>
+{% endif %}
+</table>
 
-<a href="{% url 'libro_list' %}">Lista de todos los libros</a><br>
-<a href="{%  url 'realizar_prestamo' pk=pk %}">Realizar préstamo</a><br> <!--Borrar por que va mal-->
+<a href="{% url 'libro_list' %}">Lista de libros disponibles</a><br>
+
 </body>
 </html>

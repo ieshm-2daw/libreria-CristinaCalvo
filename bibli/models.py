@@ -23,7 +23,8 @@ class Editorial(models.Model):
     direccion = models.TextField()
     sitio_web = models.URLField()
 
-
+    def __str__(self):
+        return(self.nombre)
 
 class Prestamo(models.Model):
     libro_prestado = models.ForeignKey('Libro', on_delete=models.CASCADE)
@@ -40,6 +41,13 @@ class Prestamo(models.Model):
 
     def __str__(self):
         return "Prestamo del libro " + self.libro_prestado.titulo + " a " + self.usuario.username
+    
+class Genero(models.Model):
+    nombre = models.CharField(max_length=255) 
+    deacripcion = models.CharField(max_length=255)
+
+    def __str__(self):
+        return(self.nombre)
 
 class Libro(models.Model):
     DISPONIBILIDAD_CHOICES = [
@@ -48,11 +56,12 @@ class Libro(models.Model):
         ('en_proceso', 'En proceso de préstamo'),
     ]
 
+
     titulo = models.CharField(max_length=255)
     autores = models.ManyToManyField(Autor)
     editorial = models.ForeignKey(Editorial,on_delete=models.CASCADE)
     fecha_publicacion = models.DateField()
-    genero = models.CharField(max_length=100)
+    genero = models.ForeignKey(Genero,on_delete=models.CASCADE)
     ISBN = models.CharField(max_length=20)
     resumen = models.TextField()
     disponibilidad = models.CharField(max_length=20, choices=DISPONIBILIDAD_CHOICES, default='disponible')
@@ -61,4 +70,4 @@ class Libro(models.Model):
     def __str__(self):
         return(self.titulo)
 
-    
+

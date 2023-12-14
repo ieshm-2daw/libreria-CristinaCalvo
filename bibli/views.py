@@ -25,8 +25,6 @@ class ListaLibros(ListView):
 
     #   return context
 
-
-
 class LibroNuevo(CreateView):
     model = Libro
     form_class = LibroForm
@@ -119,18 +117,17 @@ class MisLibros(ListView):
         context['prestamo_devuelto'] = Prestamo.objects.filter(usuario=self.request.user, estado='devuelto') 
         return context
     
-
-class ListaGenero(ListView):
-    model = Libro
-    form_class = BuscarLibro
+class FiltraGenero(ListView):
     template_name = 'bibli/genero_list.html'
-    context_object_name = 'libros'
+    form_class = BuscarLibro
+    model= Libro
+    success_url = reverse_lazy('genero_list')
+    
+    def get_context_data(form, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        genero = form['genero']
+        context['libros_genero'] = Libro.objects.filter(genero=genero, disponibilidad='disponible') 
+        return context
 
-def get_queryset(self):
-    form = BuscarLibro
-    if form.is_valid():
-        genero = form.cleaned_data['genero']
-        return Libro.objects.filter(disponibilidad="disponible", genero=genero)
-    return Libro.objects.none()
+
  
-
