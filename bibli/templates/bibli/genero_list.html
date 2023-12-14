@@ -1,3 +1,4 @@
+{% extends 'bibli/base.html'%}{% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,20 +15,19 @@
     </form><br>
 
     <table method="post" action="{% url 'genero_list' %}">
-    {% if libros_list %}
-    {% for libro in libros_list %}
+    {% if libros_genero %}
+    {% for libro in libros_genero %}
         <h2>Libros de {{ libro.genero }}</h2>
         <ul>
-            {% for libro in libros.all %}
-                <li>Título: {{ libro.titulo }}</li>
+                <p>Título: {{ libro.titulo }}</p>
                 {% for autor in libro.autores.all %}
-                    <p>Autores: {{ autor.nombre }}</p> 
+                <p>Autores: {{ autor.nombre }}</p> 
                 {% endfor %}
-                <li>Resumen: {{ libro.resumen }}</li>
+                <p>Resumen: {{ libro.resumen }}</p>
                 {% if libro.portada %}
-                    <img src="{{ libro.portada.url }}">
+                    <img src="{{ libro.portada.url }}"><br>
                 {% endif %}
-            {% endfor %}
+                <a href="{%  url 'realizar_prestamo' pk=libro.pk %}">Realizar Prestamo</a><br><br>
         </ul>
     {% endfor %}
 {% else %}
@@ -39,3 +39,4 @@
 
 </body>
 </html>
+{% endblock %}

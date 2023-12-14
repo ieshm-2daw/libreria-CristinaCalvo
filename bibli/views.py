@@ -123,11 +123,18 @@ class FiltraGenero(ListView):
     model= Libro
     success_url = reverse_lazy('genero_list')
     
-    def get_context_data(form, **kwargs: Any) -> dict[str, Any]:
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        genero = form['genero']
-        context['libros_genero'] = Libro.objects.filter(genero=genero, disponibilidad='disponible') 
+        form = self.form_class(self.request.GET) #BuscarLibros que sería nuestro get(solicitud)
+        context['form'] = form #Se visualiza nuestro formulario
+
+        if form.is_valid():
+            genero = form.cleaned_data.get('genero') #Tomamos lo que sería lo que haya en el campo de genero de forma limpia(validos)
+            context['libros_genero'] = Libro.objects.filter(genero=genero, disponibilidad='disponible') 
         return context
+    
+
+
 
 
  

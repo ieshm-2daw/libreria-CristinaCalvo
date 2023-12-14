@@ -1,3 +1,4 @@
+{% extends 'bibli/base.html'%}{% block content %}
 <html>
     <body>
 
@@ -19,11 +20,17 @@
     </div>
   
  <div>
-    <a href="{% url 'libro_list' %}">Lista de libros disponibles</a><br>
     <a href="{%  url 'actualiza_form' pk=libro.pk %}">Edita este libro</a><br>
     <a href="{%  url 'delete' pk=libro.pk %}">Borra este libro</a><br>
-    <a href="{%  url 'realizar_prestamo' pk=libro.pk %}">Realizar préstamo</a><br>
-    <a href="{%  url 'realizar_devolucion' pk=libro.pk %}">Realizar devolución</a>
+
+    {% if libro.disponibilidad == 'disponible' %}
+        <a href="{%  url 'realizar_prestamo' pk=libro.pk %}">Realizar préstamo</a><br>
+        {% else %}
+            <a href="{%  url 'realizar_devolucion' pk=libro.pk %}">Realizar devolución</a>
+    {% endif %}
+
+    <a href="{% url 'libro_list' %}">Lista de libros disponibles</a><br>
 </div>
 </body>
 </html>
+{% endblock %}

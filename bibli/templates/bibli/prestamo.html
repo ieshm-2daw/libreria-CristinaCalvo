@@ -1,3 +1,4 @@
+{% extends 'bibli/base.html'%}{% block content %}
 <html>
     <body>
 
@@ -12,10 +13,11 @@
     </div>
     <form method="post">
         {% csrf_token %}
-        <p>¿Quieres tener este libro?</p>
+        <p>¿Quieres alquilar este libro?</p>
         {{ form }}
         <a href="{% url 'libro_list' %}"><input type="submit" value="Confirm"></a>
     </form>
   
 </body>
 </html>
+{% endblock %}
