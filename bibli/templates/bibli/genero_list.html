@@ -7,7 +7,7 @@
     <title>Filtrado por género</title>
 </head>
 <body>
-    <h1>Filtrado de libros</h1>
+    <h1>Filtrado de libros disponibles</h1>
     <form method="get" action="{% url 'genero_list' %}" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
@@ -25,7 +25,7 @@
                 {% endfor %}
                 <p>Resumen: {{ libro.resumen }}</p>
                 {% if libro.portada %}
-                    <img src="{{ libro.portada.url }}"><br>
+                    <img src="{{ libro.portada.url }}" width="200" height="270"><br><br>
                 {% endif %}
                 <a href="{%  url 'realizar_prestamo' pk=libro.pk %}">Realizar Prestamo</a><br><br>
         </ul>

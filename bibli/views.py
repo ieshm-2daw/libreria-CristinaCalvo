@@ -136,5 +136,31 @@ class FiltraGenero(ListView):
 
 
 
+class PanelContadores(ListView):
+    template_name = 'bibli/panel.html'
+    model= Libro
+    
 
- 
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context['prestado'] = Libro.objects.filter(disponibilidad="prestado")
+        context['cont_prestado'] = len(context['prestado'])
+
+        context['disponible'] = Libro.objects.filter(disponibilidad="disponible")
+        context['cont_disponible'] = len(context['disponible'])
+   
+        context['ndevueltos'] = Prestamo.objects.filter(estado="prestado", fecha_devolucion__lte = date.today())
+
+        return context
+    
+        
+
+        #cont = 0
+        #for libro in context['prestado']:
+        #    cont = cont + 1
+        #    context['cont'] = cont
+        #return context
+    
+
+    
+    

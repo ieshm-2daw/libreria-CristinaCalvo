@@ -1,0 +1,25 @@
+{% extends 'bibli/base.html'%}{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel</title>
+</head>
+<body>
+    <h1>Panel</h1>
+    Número de libros prestados: {{cont_prestado}}<br>
+    Número de libros disponibles: {{cont_disponible}}<br><br>
+
+    {% for prestamo in ndevueltos %}  
+    <div>  
+        <h2>Libro sin devolver: {{ prestamo.libro_prestado.titulo }}</a></h2>
+        <p>Fecha de devolucion: {{ prestamo.fecha_devolucion }}</p>
+    </div><br>
+    {% endfor %}
+
+</body>
+</html>
+
+
+{% endblock %}
