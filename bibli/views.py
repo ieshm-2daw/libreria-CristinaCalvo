@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect,  get_object_or_404
 from .models import Libro, Prestamo
 from .forms import LibroForm, BuscarLibro
 from django.views import View
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import UpdateView, CreateView, DeleteView
 from django.urls import reverse_lazy
@@ -11,7 +12,7 @@ from django.contrib.auth.models import User
 
 
 
-class ListaLibros(ListView):
+class ListaLibros(LoginRequiredMixin, ListView):
     model = Libro
     template_name = 'bibli/libro_list.html'
     queryset = Libro.objects.filter(disponibilidad="disponible") #filtrado
@@ -25,7 +26,7 @@ class ListaLibros(ListView):
 
     #   return context
 
-class LibroNuevo(CreateView):
+class LibroNuevo(LoginRequiredMixin, CreateView):
     model = Libro
     form_class = LibroForm
     template_name = 'bibli/nuevo_libro.html'
