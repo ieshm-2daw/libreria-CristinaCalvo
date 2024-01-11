@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Filtrado por género</title>
+    <title>Filtrado por género y editorial</title>
 </head>
 <body>
     <h1>Filtrado de libros disponibles</h1>
@@ -15,11 +15,13 @@
     </form><br>
 
     <table method="post" action="{% url 'genero_list' %}">
-    {% if libros_genero %}
-    {% for libro in libros_genero %}
-        <h2>Libros de {{ libro.genero }}</h2>
+    {% if object_list %}
+    {% for libro in object_list %}
+        <h2>Libros encontrados</h2>
         <ul>
                 <p>Título: {{ libro.titulo }}</p>
+                <p>Genero: {{ libro.genero }}</p>
+                <p>Editorial: {{ libro.editorial }}</p>
                 {% for autor in libro.autores.all %}
                 <p>Autores: {{ autor.nombre }}</p> 
                 {% endfor %}
@@ -31,7 +33,7 @@
         </ul>
     {% endfor %}
 {% else %}
-    <p>No se encontraron libros para el género seleccionado.</p>
+    <p>No se encontraron libros con el género y editorial que desea</p>
 {% endif %}
 </table>
 

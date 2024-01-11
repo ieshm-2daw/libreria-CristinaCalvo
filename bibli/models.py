@@ -56,7 +56,6 @@ class Libro(models.Model):
         ('en_proceso', 'En proceso de préstamo'),
     ]
 
-
     titulo = models.CharField(max_length=255)
     autores = models.ManyToManyField(Autor)
     editorial = models.ForeignKey(Editorial,on_delete=models.CASCADE)

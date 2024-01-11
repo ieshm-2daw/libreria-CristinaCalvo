@@ -10,4 +10,7 @@ class LibroForm(forms.ModelForm):
 class BuscarLibro(forms.ModelForm):
     class Meta:
         model = Libro
-        fields = ['genero']
+        fields = ['genero','editorial']
+
+
+

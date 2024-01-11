@@ -12,7 +12,7 @@ from django.contrib.auth.models import User
 
 
 
-class ListaLibros(LoginRequiredMixin, ListView):
+class ListaLibros(ListView):
     model = Libro
     template_name = 'bibli/libro_list.html'
     queryset = Libro.objects.filter(disponibilidad="disponible") #filtrado
@@ -50,21 +50,21 @@ class DetallesClass(DetailView):
     model = Libro
     template_name = 'bibli/detalles.html'
 
-class UpdateView(UpdateView):
+class UpdateView(LoginRequiredMixin,UpdateView):
     model = Libro
     form_class = LibroForm #para coger todos los campos sin poner fields
     template_name = "bibli/actualiza.html"
     success_url = reverse_lazy('libro_list')
     
 
-class DeleteView(DeleteView):
+class DeleteView(LoginRequiredMixin,DeleteView):
     model = Libro
     template_name = "bibli/delete.html"
     success_url = reverse_lazy("libro_list")
 
 
 
-class RealizarPrestamo(View):
+class RealizarPrestamo(LoginRequiredMixin,View):
     template_name = "bibli/prestamo.html"
 
     def get(self, request, pk):
@@ -85,7 +85,7 @@ class RealizarPrestamo(View):
         return redirect('libro_list')
     
 
-class RealizarDevolucion(View):
+class RealizarDevolucion(LoginRequiredMixin,View):
     template_name = "bibli/devolucion.html"
 
     def get(self, request, pk):
@@ -108,7 +108,7 @@ class RealizarDevolucion(View):
         return redirect('libro_list')
     
 
-class MisLibros(ListView):
+class MisLibros(LoginRequiredMixin,ListView):
     model = Prestamo
     template_name = "bibli/mislibros.html"
     
@@ -118,23 +118,29 @@ class MisLibros(ListView):
         context['prestamo_devuelto'] = Prestamo.objects.filter(usuario=self.request.user, estado='devuelto') 
         return context
     
-class FiltraGenero(ListView):
+class FiltraGenero(ListView): #también estamos filtrando la editorial
     template_name = 'bibli/genero_list.html'
+    model = Libro
     form_class = BuscarLibro
-    model= Libro
-    success_url = reverse_lazy('genero_list')
-    
-    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        genero = self.request.GET.get('genero')
+        editorial = self.request.GET.get('editorial')
+
+        if genero and editorial:
+            queryset = queryset.filter(genero=genero, editorial=editorial, disponibilidad='disponible')
+        elif genero:
+            queryset = queryset.filter(genero=genero, disponibilidad='disponible')
+        elif editorial:
+            queryset = queryset.filter(editorial=editorial, disponibilidad='disponible')
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        form = self.form_class(self.request.GET) #BuscarLibros que sería nuestro get(solicitud)
-        context['form'] = form #Se visualiza nuestro formulario
-
-        if form.is_valid():
-            genero = form.cleaned_data.get('genero') #Tomamos lo que sería lo que haya en el campo de genero de forma limpia(validos)
-            context['libros_genero'] = Libro.objects.filter(genero=genero, disponibilidad='disponible') 
+        context['form'] = self.form_class(self.request.GET)
         return context
-    
-
 
 
 class PanelContadores(ListView):
@@ -153,8 +159,6 @@ class PanelContadores(ListView):
         context['ndevueltos'] = Prestamo.objects.filter(estado="prestado", fecha_devolucion__lte = date.today())
 
         return context
-    
-        
 
         #cont = 0
         #for libro in context['prestado']:
